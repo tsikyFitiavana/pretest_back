@@ -12,7 +12,8 @@
     "body-parser": "^1.18.2",
     "mongoose": "^5.0.7",
     "password-hash": "^1.2.2",
-    "jwt-simple": "^0.5.1"
+    "jwt-simple": "^0.5.1",
+    "express-fileupload": "^1.1.4"
   },
   "repository": {
     "type": "git",

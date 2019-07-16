@@ -36,9 +36,9 @@ app.use(function (req, res, next) {
 
 //On définit la route Hello
 //Définition du routeur
-var router = express.Router();
+const router = express.Router();
 app.use('/user', router);
-require(__dirname + '/controllers/userController')(router);
+require(__dirname + '/route/route')(router);
 
 //Définition et mise en place du port d'écoute
 

@@ -1,8 +1,11 @@
 const PORT = process.env.PORT || 8080
 //Définition des modules
+const cors = require('cors')
+// const methodOverride = require('method-override')
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require('body-parser');
+const expressFile = require('express-fileupload')
 
 //Connexion à la base de donnée
 mongoose.connect('mongodb://localhost/pretest', {
@@ -22,19 +25,10 @@ const app = express();
 const urlencodedParser = bodyParser.urlencoded({
     extended: true
 });
+app.use(expressFile())
+app.use(cors())
 app.use(urlencodedParser);
 app.use(bodyParser.json());
-
-//Définition des CORS
-app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Credentials', true);
-    next();
-});
-
-//On définit la route Hello
 //Définition du routeur
 const router = express.Router();
 app.use('/user', router);

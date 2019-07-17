@@ -7,5 +7,6 @@ module.exports = function (app) {
     app.post('/produit', produit.create);
     app.get('/produit', produit.findAll);
     app.get('/produit/:produitId', produit.findOne);
+    app.get('/produit/:produitId', produit.delete);
     app.get('/produitImage/:image', produit.lireImage);
 }

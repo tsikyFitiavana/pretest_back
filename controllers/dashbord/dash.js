@@ -1,22 +1,7 @@
 const Produit = require('../../schema/dashbordSchema/dashSchema');
-console.log(Produit)
 const fs = require('fs');
 
 exports.create = (req, res) => {
-    console.log("resultat req.body "+req.body)
-    console.log("resultat req.body.image "+req.body.image)
-    if(!req.body.nom || !req.body.description) {
-        console.log('console.log 1 '+req.file);
-        
-        console.log('console.log 2 '+req.body.nom);
-        
-        
-        return res.status(400).send({
-            message: "profil content can not be empty"
-            
-        });
-    }
-    
     Produit.find()
     .then(prod => {
         //autoincrement
@@ -33,7 +18,7 @@ exports.create = (req, res) => {
         let nomImage = idautom
         res.setHeader('Content-Type', 'text/plain');
 
-        imageFile.mv(`${__dirname}/public/images/${nomImage }.jpg`, function(err) {
+        imageFile.mv(`${__dirname}/public/${nomImage }.jpg`, function(err) {
           if (err) {
             return res.status(500).send(err);
           }
@@ -55,16 +40,18 @@ exports.create = (req, res) => {
         description: req.body.description,
         image:'' + nomImage +'.jpg'
     });
+
+
     // Save p in the database
     produit.save()
     .then(() => {
-        Produit.find()
+        Profile.find()
         .then(data=>{
             res.send(data);
         })
     }).catch(err => {
-        res.status(500).send({
-            message: err.message || "Something wrong while creating the Produit."
+        res.status(200).send({
+            message: err.message || "Something wrong while creating the produit."
             
         });
     });
@@ -84,7 +71,7 @@ exports.findAll = (req, res) => {
 
 exports.lireImage =(req, res) =>{
     try {
-        let picture = fs.readFileSync('././public/images/'+req.params.image)
+        let picture = fs.readFileSync('./controllers/dashbord/public/'+req.params.image)
         res.write(picture)
         res.end()
     } catch (e) {
@@ -103,9 +90,7 @@ exports.findOne = (req, res) => {
         }
         else{  
             res.send(profilchoix);             
-        }
-        
-        
+        }    
     }).catch(err => {
         if(err.kind === 'ObjectId') {
             return res.status(404).send({
@@ -114,6 +99,28 @@ exports.findOne = (req, res) => {
         }
         return res.status(500).send({
             message: "Something wrong retrieving profil with id " + req.params.produitId
+        });
+    });
+};
+
+
+exports.delete = (req, res) => {
+    produit.findByIdAndRemove(req.params.produitId)
+    .then(produits => {
+        if(!produits) {
+            return res.status(404).send({
+                message: "eleve not found with id " + req.params.produitId
+            });
+        }
+        res.send({message: "eleve deleted successfully!"});
+    }).catch(err => {
+        if(err.kind === 'ObjectId' || err.nom === 'NotFound') {
+            return res.status(404).send({
+                message: "eleve not found with id " + req.params.produitId
+            });                
+        }
+        return res.status(500).send({
+            message: "Could not delete eleve with id " + req.params.produitId
         });
     });
 };

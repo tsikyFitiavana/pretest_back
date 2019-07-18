@@ -10,7 +10,9 @@ function signup(req, res) {
     } else {
         var user = {
             email: req.body.email,
-            password: passwordHash.generate(req.body.password)
+            password: passwordHash.generate(req.body.password),
+            nom: req.body.nom,
+            prenom: req.body.prenom
         }
         var findUser = new Promise(function (resolve, reject) {
             User.findOne({
@@ -86,7 +88,10 @@ function login(req, res) {
                 if (user.authenticate(req.body.password)) {
                     res.status(200).json({
                         "token": user.getToken(),
-                        "text": "Authentification réussi"
+                        "text": "Authentification réussi",
+                        "id": user.id,
+                        "id": user.nom,
+                        "id": user.prenom,
                     })
                 }
                 else{

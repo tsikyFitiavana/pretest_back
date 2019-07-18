@@ -5,6 +5,7 @@ const UserSchema = mongoose.Schema({
     _id: {type:Number, required:true},
     nom: { type: String, required: true},
     prix: { type: Number, required: true},
+    entreprise: { type: String},
     description: { type: String},
     image : String
 },

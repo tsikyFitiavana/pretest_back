@@ -37,6 +37,7 @@ exports.create = (req, res) => {
         _id: idautom,
         nom: req.body.nom , 
         prix: req.body.prix,
+        entreprise: req.body.entreprise,
         description: req.body.description,
         image:'' + nomImage +'.jpg'
     });
